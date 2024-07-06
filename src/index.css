@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+::-moz-selection{
+   @apply bg-brand-color text-white
+}
+::selection{
+   @apply bg-brand-color text-white
+}
