@@ -6,11 +6,13 @@ export default {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "home_background_image": "linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('./src/assets/home_background.jpg')"
-      },
+      // backgroundImage: {
+      //   "home_background_image": "linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('public/assets/home_background.jpg')"
+      // },
       colors: {
-        "brand-color": "#C10909"
+        "brand-color": "#f47521",
+        "gray-bg": "#23252b",
+        "gray-dk": "#0E0E10",
       }
     },
   },
