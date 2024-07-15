@@ -43,6 +43,14 @@
 
 }
 
+.pop-cards:hover ~ div{
+   @apply transition duration-200 opacity-0 ease-in-out;
+}
+
+.right-arrow-div{
+   @apply absolute flex items-center justify-center h-[24rem] w-20 cursor-pointer bottom-0 right-0 z-50 bg-gradient-to-r from-black/0 via-black/50 to-black/70;
+}
+
 
 .no-scrollbar::-webkit-scrollbar {
    display: none;

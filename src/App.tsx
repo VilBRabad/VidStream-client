@@ -1,16 +1,12 @@
 import './App.css'
 import Home from './components/Home'
-// import LandingPage from './components/LandingPage'
-// import LoginPage from './components/LoginPage'
-// import Register from './components/Register'
+import Navbar from './components/Navbar'
 
 function App() {
 
   return (
-    <div className='flex flex-col items-center bg-gray-bg text-white overflow-x-hidden'>
-      {/* <LandingPage/> */}
-      {/* <LoginPage /> */}
-      {/* <Register/> */}
+    <div className={`flex flex-col items-center bg-gray-bg text-white overflow-x-hidden`}>
+      <Navbar />
       <Home/>
     </div>
   )
