@@ -6,14 +6,20 @@ import { motion, AnimatePresence } from "framer-motion"
 import { MdArrowDropDown } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { PiCrownSimple } from "react-icons/pi";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useUser } from "../contexts/UserContext"
+import axios from "axios"
+import toast from "react-hot-toast"
+
 
 function Navbar() {
-
+    const navigate = useNavigate();
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [browseMenu, setBrowseMenu] = useState<boolean>(false);
     const [accoutnt, setAccount] = useState<boolean>(false);
+    const { user, setUser } = useUser();
 
+    
     const handleBrowseClick = () => {
         if ((browseMenu && isVisible) || (!browseMenu && !isVisible)) {
             setBrowseMenu(!isVisible);
@@ -52,6 +58,36 @@ function Navbar() {
 
         return () => document.body.classList.remove("no-scroll");
     }, [isVisible])
+
+
+    const handleLogOut = async()=>{
+        try {
+            await axios.get("http://localhost:8000/api/v1/user/logout", {
+                withCredentials: true
+            })
+
+            setUser(null);
+            localStorage.removeItem("user");
+            toast.success("logout successfully");
+            navigate("/sign-in")
+        } catch (error) {
+            if(axios.isAxiosError(error)){
+                const res = error.response;
+                if(res?.status === 402) toast.error("Un-authorized request");
+                else toast.error("Invalid access token");
+
+                setUser(null);
+                localStorage.removeItem("user");
+                navigate("/sign-in")
+            }
+            else{
+                console.error("Unexpected Error");
+                toast.error('An unexpected error occurred');
+            }
+        }
+        handleToggle();
+    }
+
 
     return (
         <>
@@ -123,22 +159,36 @@ function Navbar() {
                                         style={{ transformOrigin: "top" }}
                                         className="absolute h-auto w-[25rem] bg-gray-dk right-0"
                                     >
-                                        <div onClick={handleToggle} className="px-5 py-3 hover:bg-gray-bg cursor-pointer mt-3">
-                                            <Link to="/sign-up">
-                                                <p>Create account</p>
-                                                <p className="text-white/70">Join for free & enjoy</p>
-                                            </Link>
-                                        </div>
-                                        <div onClick={handleToggle} className="px-5 py-3 hover:bg-gray-bg cursor-pointer">
-                                            <Link to="/sign-in">
-                                                <p>Login</p>
-                                                <p className="text-white/70">Already joined Vidstream? Welcome back</p>
-                                            </Link>
-                                        </div>
-                                        <div onClick={handleToggle} className="m-5 flex h-[2.7rem] bg-amber-500 text-black items-center justify-center gap-2 cursor-pointer">
-                                            <PiCrownSimple size={22} />
-                                            <p>TRY FREE PREMIUM</p>
-                                        </div>
+                                        {
+                                            user && user.email?
+                                            <>
+                                                <div onClick={handleToggle} className="px-5 py-3 hover:bg-gray-bg cursor-pointer mt-3">
+                                                    <p>Hello, <span className="font-semibold">@{user.email.split('@')[0]}</span></p>
+                                                </div>
+                                                <div onClick={handleLogOut} className="m-5 flex h-[2.7rem] bg-amber-500 text-black items-center justify-center gap-2 cursor-pointer">
+                                                    <p className="font-semibold">Log out</p>
+                                                </div>
+                                            </>
+                                            :
+                                            <>
+                                                <div onClick={handleToggle} className="px-5 py-3 hover:bg-gray-bg cursor-pointer mt-3">
+                                                    <Link to="/sign-up">
+                                                        <p>Create account</p>
+                                                        <p className="text-white/70">Join for free & enjoy</p>
+                                                    </Link>
+                                                </div>
+                                                <div onClick={handleToggle} className="px-5 py-3 hover:bg-gray-bg cursor-pointer">
+                                                    <Link to="/sign-in">
+                                                        <p>Login</p>
+                                                        <p className="text-white/70">Already joined Vidstream? Welcome back</p>
+                                                    </Link>
+                                                </div>
+                                                <div onClick={handleToggle} className="m-5 flex h-[2.7rem] bg-amber-500 text-black items-center justify-center gap-2 cursor-pointer">
+                                                    <PiCrownSimple size={22} />
+                                                    <p>TRY FREE PREMIUM</p>
+                                                </div>
+                                            </>
+                                        }
                                     </motion.div>
                                 </AnimatePresence>
                             </>

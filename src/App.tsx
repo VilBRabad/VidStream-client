@@ -6,21 +6,24 @@ import Login from './components/Login';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SearchPage from './components/SearchPage';
 import MovieHome from './components/MovieHome';
+import { UserProvider } from './contexts/UserContext';
 
 function App() {
 
   return (
     <div className={`flex flex-col items-center bg-gray-dk text-white overflow-x-hidden`}>
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path='/' element={<Home/>}/>
-          <Route path='/sign-in' element={<Login/>}/>
-          <Route path='/sign-up' element={<Register/>}/>
-          <Route path='/search' element={<SearchPage/>}/>
-          <Route path='/movie/:movieId' element={<MovieHome/>}/>
-          <Route path='/:ERROR' element={<MovieHome/>}/>
-        </Routes>
+        <UserProvider>
+          <Navbar />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/sign-in' element={<Login />} />
+            <Route path='/sign-up' element={<Register />} />
+            <Route path='/search' element={<SearchPage />} />
+            <Route path='/movie/:movieId' element={<MovieHome />} />
+            <Route path='/:ERROR' element={<MovieHome />} />
+          </Routes>
+        </UserProvider>
       </Router>
     </div>
   )
