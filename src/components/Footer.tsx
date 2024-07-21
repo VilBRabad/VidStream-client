@@ -2,7 +2,7 @@ import { IoMdArrowDropdown } from 'react-icons/io'
 
 function Footer() {
     return (
-        <div className="min-h-[10vh] max-w-screen bg-black text-white/70 px-[3%] mt-8">
+        <div className="min-h-[10vh] max-w-screen bg-black text-white/70 px-[3%] pt-8 flex flex-col justify-center">
             <div className="w-full flex justify-center gap-1 md:gap-4 max-sm:text-sm flex-wrap">
                 <p className="hover:text-white/90 cursor-pointer">Term of use</p>
                 <p>|</p>

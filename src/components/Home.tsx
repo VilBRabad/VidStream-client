@@ -3,7 +3,7 @@ import { IoPlaySharp } from "react-icons/io5";
 import { GrBookmark } from "react-icons/gr";
 import { motion, AnimatePresence } from "framer-motion"
 import Footer from "./Footer";
-import { MdArrowForwardIos } from "react-icons/md";
+import MovieCards from "./MovieCads";
 
 
 const topMovies = [
@@ -82,12 +82,9 @@ const Home:React.FC<HomeProps> = () => {
     resetInerval();
   }
 
-  const slideHandle = ()=>{
-
-  }
 
   return (
-    <div className="min-h-screen w-screen relative text-white bg-black z-0">
+    <div className="h-auto w-screen relative text-white bg-black z-0">
       <div className="relative h-[90vh] flex z-10">
         <motion.div
           initial={{ opacity: 0 }}
@@ -146,34 +143,14 @@ const Home:React.FC<HomeProps> = () => {
           />
         </AnimatePresence>
       </div>
-      <div className="relative w-screen bg-black min-h-screen pl16">
+      <div className="h-auto relative w-screen bg-black pl16 pb-8">
         <div className="relative w-full">
           <h1 className="relative text-2xl font-semibold z-50 pl-6 lg:pl-12">Popular on vidstream</h1>
-          <div className="pop-cards relative z-50 mt-4 flex gap-2 lg:gap-4 h-[17.1rem] xl:h-[24rem] w-screen no-scrollbar overflow-scroll scroll-pl-6 pl-6 lg:scroll-pl-16 lg:pl-12 snap-x">
-            {
-              [...Array(10)].map((_, ind) => (
-                <div key={ind} className="movie-card">
-                </div>
-              ))
-            }
-          </div>
-          <div onClick={slideHandle} className="right-arrow-div">
-            <MdArrowForwardIos size={30}/>
-          </div>
+          <MovieCards cards={[1, 2, 3, 4, 5, 6, 7]}/>
         </div>
         <div className="w-full mt-16 relative">
           <h1 className="relative text-2xl font-semibold z-50 pl-6 lg:pl-12">New release | 2024</h1>
-          <div className="pop-cards relative z-50 mt-4 flex gap-2 lg:gap-4 h-[24rem] w-screen no-scrollbar overflow-scroll scroll-pl-6 pl-6 lg:scroll-pl-16 lg:pl-12 snap-x">
-            {
-              [...Array(10)].map((_, ind) => (
-                <div key={ind} className="movie-card">
-                </div>
-              ))
-            }
-          </div>
-          <div onClick={slideHandle} className="right-arrow-div">
-            <MdArrowForwardIos size={30}/>
-          </div>
+          <MovieCards cards={[1, 2, 3, 4, 5, 6, 7]}/>
         </div>
       </div>
       <Footer />

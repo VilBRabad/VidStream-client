@@ -32,6 +32,9 @@
    @apply snap-start bg-slate-700 h-full min-w-[13.1rem] xl:min-w-[17.6rem];
 }
 
+.rotate-y-180 {
+   transform: rotateY(180deg);
+}
 
 .rect{
    transition: flex-grow 0.3s ease-in;
@@ -43,14 +46,23 @@
 
 }
 
-.pop-cards:hover ~ div{
+.pop-cards:hover ~ .right-arrow-div,
+.pop-cards:hover ~ .left-arrow-div{
    @apply transition duration-200 opacity-0 ease-in-out;
 }
 
 .right-arrow-div{
-   @apply absolute flex items-center justify-center h-[24rem] w-20 cursor-pointer bottom-0 right-0 z-50 bg-gradient-to-r from-black/0 via-black/50 to-black/70;
+   @apply absolute flex items-center justify-center h-[17.3rem] xl:h-[24rem] w-20 cursor-pointer bottom-0 right-0 z-50 bg-gradient-to-r from-black/0 via-black/50 to-black/70;
 }
 
+.left-arrow-div{
+   @apply rotate-180 left-0 bottom-0 absolute flex items-center justify-center  h-[17.3rem]  xl:h-[24rem] w-20 cursor-pointer z-50 bg-gradient-to-r from-black/0 via-black/50 to-black/70;
+}
+
+
+.no-scroll{
+   overflow: hidden;
+}
 
 .no-scrollbar::-webkit-scrollbar {
    display: none;

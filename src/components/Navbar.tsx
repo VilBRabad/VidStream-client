@@ -4,8 +4,9 @@ import { VscAccount } from "react-icons/vsc"
 import logo from "/assets/logo2.svg"
 import { motion, AnimatePresence } from "framer-motion"
 import { MdArrowDropDown } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PiCrownSimple } from "react-icons/pi";
+import { Link } from "react-router-dom"
 
 function Navbar() {
 
@@ -14,39 +15,50 @@ function Navbar() {
     const [accoutnt, setAccount] = useState<boolean>(false);
 
     const handleBrowseClick = () => {
-        if((browseMenu && isVisible) || (!browseMenu && !isVisible)){
+        if ((browseMenu && isVisible) || (!browseMenu && !isVisible)) {
             setBrowseMenu(!isVisible);
             setIsVisible(!browseMenu);
         }
-        else if(!browseMenu && isVisible){
+        else if (!browseMenu && isVisible) {
             setBrowseMenu(true);
             setAccount(false);
         }
     }
 
-    const handleAccountClick = ()=>{
-        if((accoutnt && isVisible) || (!accoutnt && !isVisible)){
+    const handleAccountClick = () => {
+        if ((accoutnt && isVisible) || (!accoutnt && !isVisible)) {
             setAccount(!accoutnt);
             setIsVisible(!isVisible);
         }
-        else if(!accoutnt && isVisible){
+        else if (!accoutnt && isVisible) {
             setAccount(true);
             setBrowseMenu(false);
         }
     }
 
-    const handleToggle = ()=>{
+    const handleToggle = () => {
         setIsVisible(false);
         setAccount(false);
         setBrowseMenu(false);
     }
+
+    useEffect(() => {
+        if (isVisible) {
+            document.body.classList.add("no-scroll");
+        }
+        else {
+            document.body.classList.remove("no-scroll");
+        }
+
+        return () => document.body.classList.remove("no-scroll");
+    }, [isVisible])
 
     return (
         <>
             <div className="fixed top-0 w-screen h-[3.5rem] flex justify-between px-4 lg:px-20 bg-gray-bg z-[100]">
                 <div className="relative flex gap-3 items-center z-[80]">
                     <img src={logo} alt="logo" className="w-[1.2rem] h-[1.9rem]" />
-                    <h1 className="font-bold text-xl text-brand-color">VIDSTREAM</h1>
+                    <Link to="/" className="font-bold text-xl text-brand-color">VIDSTREAM</Link>
                     <div className="relative h-full">
                         <div onClick={handleBrowseClick} className={`ml-4 max-[861px]:hidden text-sm cursor-pointer flex items-center justify-center gap-1 hover:bg-gray-dk ${browseMenu ? "bg-gray-dk" : ""} h-full px-3`}>
                             <p>Browse</p>
@@ -56,10 +68,10 @@ function Navbar() {
                             <>
                                 <AnimatePresence>
                                     <motion.div
-                                        initial={{opacity:0, scaleY: 0.5}}
-                                        animate={{opacity:1, scaleY: 1}}
-                                        exit={{opacity:0, scaleY:0.5}}
-                                        style={{transformOrigin: "top"}}
+                                        initial={{ opacity: 0, scaleY: 0.5 }}
+                                        animate={{ opacity: 1, scaleY: 1 }}
+                                        exit={{ opacity: 0, scaleY: 0.5 }}
+                                        style={{ transformOrigin: "top" }}
                                         className="absolute h-auto w-auto bg-gray-dk left-4 top-0 mt-[3.5rem] py-6 flex z-[80] max-[861px]:hidden">
                                         <div className="flex flex-col gap-1 h-full w-[11rem] border-r-2 border-gray-bg">
                                             <p className="py-2 px-5 hover:bg-gray-bg transition cursor-pointer">Popular</p>
@@ -88,37 +100,43 @@ function Navbar() {
                     </div>
                 </div>
                 <div className="flex items-center ">
-                    <div className="hover:bg-gray-dk h-full px-4 flex items-center">
-                        <RiSearch2Line size={21} />
-                    </div>
+                    <Link to="/search" className="h-full">
+                        <div className="hover:bg-gray-dk h-full px-4 flex items-center">
+                            <RiSearch2Line size={21} />
+                        </div>
+                    </Link>
                     <div className="hover:bg-gray-dk h-full px-4 flex items-center">
                         <GrBookmark size={20} />
                     </div>
                     <div className="relative h-full">
-                        <div onClick={handleAccountClick} className={`hover:bg-gray-dk ${accoutnt?"bg-gray-dk":""} h-full px-4 flex items-center`}>
+                        <div onClick={handleAccountClick} className={`hover:bg-gray-dk ${accoutnt ? "bg-gray-dk" : ""} h-full px-4 flex items-center`}>
                             <VscAccount size={21} />
                         </div>
                         {
-                            accoutnt && 
+                            accoutnt &&
                             <>
                                 <AnimatePresence>
                                     <motion.div
-                                        initial={{opacity:0, scaleY: 0.5}}
-                                        animate={{opacity:1, scaleY: 1}}
-                                        exit={{opacity:0, scaleY:0.5}}
-                                        style={{transformOrigin: "top"}}
+                                        initial={{ opacity: 0, scaleY: 0.5 }}
+                                        animate={{ opacity: 1, scaleY: 1 }}
+                                        exit={{ opacity: 0, scaleY: 0.5 }}
+                                        style={{ transformOrigin: "top" }}
                                         className="absolute h-auto w-[25rem] bg-gray-dk right-0"
                                     >
-                                        <div className="px-5 py-3 hover:bg-gray-bg cursor-pointer mt-3">
-                                            <p>Create account</p>
-                                            <p className="text-white/70">Join for free & enjoy</p>
+                                        <div onClick={handleToggle} className="px-5 py-3 hover:bg-gray-bg cursor-pointer mt-3">
+                                            <Link to="/sign-up">
+                                                <p>Create account</p>
+                                                <p className="text-white/70">Join for free & enjoy</p>
+                                            </Link>
                                         </div>
-                                        <div className="px-5 py-3 hover:bg-gray-bg cursor-pointer">
-                                            <p>Login</p>
-                                            <p className="text-white/70">Already joined Vidstream? Welcome back</p>
+                                        <div onClick={handleToggle} className="px-5 py-3 hover:bg-gray-bg cursor-pointer">
+                                            <Link to="/sign-in">
+                                                <p>Login</p>
+                                                <p className="text-white/70">Already joined Vidstream? Welcome back</p>
+                                            </Link>
                                         </div>
-                                        <div className="m-5 flex h-[2.7rem] bg-amber-500 text-black items-center justify-center gap-2 cursor-pointer">
-                                            <PiCrownSimple size={22}/>
+                                        <div onClick={handleToggle} className="m-5 flex h-[2.7rem] bg-amber-500 text-black items-center justify-center gap-2 cursor-pointer">
+                                            <PiCrownSimple size={22} />
                                             <p>TRY FREE PREMIUM</p>
                                         </div>
                                     </motion.div>
