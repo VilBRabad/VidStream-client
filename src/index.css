@@ -29,7 +29,7 @@
 }
 
 .movie-card{
-   @apply snap-start bg-slate-700 h-full min-w-[13.1rem] xl:min-w-[17.6rem];
+   @apply snap-start bg-gray-bg h-full min-w-[13.1rem] xl:min-w-[17.6rem];
 }
 
 .rotate-y-180 {
@@ -44,6 +44,15 @@
    flex-grow: 1;
    background-color: #f47521;
 
+}
+
+
+.poster:hover > .poster-image ~ .movie-details{
+   @apply opacity-100;
+}
+
+.poster:hover > .poster-image{
+   @apply scale-105 opacity-70;
 }
 
 .pop-cards:hover ~ .right-arrow-div,

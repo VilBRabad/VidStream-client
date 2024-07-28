@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { IoIosArrowDropleft } from "react-icons/io";
+import { IMovie } from "./Home";
+import CloudinaryImage from "./CloudinaryImage";
 
 interface MovieCardsProps {
-    cards: number[];
+    cards?: IMovie[]
 }
 
 const MovieCards: React.FC<MovieCardsProps> = ({ cards }) => {
@@ -17,6 +19,7 @@ const MovieCards: React.FC<MovieCardsProps> = ({ cards }) => {
 
 
     useEffect(() => {
+        // console.log("cards: ", cards);
         const getCardValues = () => {
             if (cardRef.current) {
                 let sliderWidth = cardRef.current.clientWidth;
@@ -77,9 +80,8 @@ const MovieCards: React.FC<MovieCardsProps> = ({ cards }) => {
                 onScroll={handleScroll}
                 className={`pop-cards relative z-50 mt-4 flex gap-2 lg:gap-4 h-[17.1rem] xl:h-[24rem] w-screen no-scrollbar overflow-scroll scroll-pl-6 pl-6 lg:scroll-pl-16 lg:pl-12 snap-x`}>
                 {
-                    [...Array(20)].map((_, ind) => (
-                        <div key={ind} className="movie-card">
-                        </div>
+                    cards?.map((item, ind) => (
+                        <CloudinaryImage key={ind} movie={item}/>
                     ))
                 }
             </div>

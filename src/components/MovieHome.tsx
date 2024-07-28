@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { GrBookmark } from 'react-icons/gr';
-import MovieCards from './MovieCads';
 import Footer from './Footer';
+import LoadCards from './LoadCards';
 
 function MovieHome() {
     const [isInView, setIsInView] = useState<boolean>(true);
@@ -92,15 +92,15 @@ function MovieHome() {
                     <div ref={movieRef} className='absolute top-0'></div>
                     <div className="relative w-full">
                         <h1 className="pl-6 md:pl-12  text-lg mt-16 font-semibold">Popular on vidstream</h1>
-                        <MovieCards cards={[1, 2, 3, 4, 5, 6, 7]} />
+                        <LoadCards />
                     </div>
                     <div className="relative w-full">
                         <h1 className="pl-6 md:pl-12  text-lg mt-16 font-semibold">More Romance</h1>
-                        <MovieCards cards={[1, 2, 3, 4, 5, 6, 7]} />
+                        <LoadCards/>
                     </div>
                     <div className="relative w-full">
                         <h1 className="pl-6 md:pl-12  text-lg mt-16 font-semibold">New fo you</h1>
-                        <MovieCards cards={[1, 2, 3, 4, 5, 6, 7]} />
+                        <LoadCards/>
                     </div>
                 </div>
             </div>
