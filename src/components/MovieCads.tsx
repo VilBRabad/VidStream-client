@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { IoIosArrowDropleft } from "react-icons/io";
-import { IMovie } from "./Home";
+import { IMovie } from "../utils";
 import CloudinaryImage from "./CloudinaryImage";
 
 interface MovieCardsProps {

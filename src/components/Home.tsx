@@ -4,96 +4,17 @@ import { GrBookmark } from "react-icons/gr";
 import { motion, AnimatePresence } from "framer-motion"
 import Footer from "./Footer";
 import MovieCards from "./MovieCads";
-import axios from "axios";
 import LoadCards from "./LoadCards";
-import { Cloudinary } from '@cloudinary/url-gen';
-import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
-import { auto } from "@cloudinary/url-gen/actions/resize";
+import { getUrl } from "../utils";
+import { useHomeMovie } from "../contexts/HomeMoviesContext";
 
 
-// const topMovies = [
-//   {
-//     name: "Bahubali",
-//     rate: 8.6,
-//     genre: ["Action", "Thriller", "Rommance"],
-//     desc: "After learning that his father was brutally killed by Bhallaladeva, Mahendra Baahubali raises an army to defeat him and release his mother from the former's captivity.",
-//     image: "/assets/Bahubali2.jpg",
-//   },
-//   {
-//     name: "Avesham",
-//     rate: 8.0,
-//     genre: ["Action", "Thriller", "Drama"],
-//     desc: "hree teens come to Bangalore for their engineering education and get involved in a fight. They find a local gangster to help them.",
-//     image: "/assets/Aavesham.jpg",
-//   },
-//   {
-//     name: "Animal",
-//     rate: 7.8,
-//     genre: ["Action", "Thriller", "Rommance"],
-//     desc: "The son of a wealthy, powerful industrialist returns to India and undergoes a remarkable transformation as he becomes consumed by a quest for vengeance against those threatening his father's life.",
-//     image: "/assets/Animal.jpg",
-//   },
-//   {
-//     name: "Cirkus",
-//     rate: 7.5,
-//     genre: ["Drama", "Comedy", "Rommance"],
-//     desc: "Chaos reigns due to a case of mistaken identity when two sets of twins who were separated at birth coincidentally visit the same city.",
-//     image: "/assets/cirkus.jpg",
-//   },
-//   {
-//     name: "Leo",
-//     rate: 7.7,
-//     genre: ["Action", "Thriller", "Rommance"],
-//     desc: "Things start to take an awry turn for a mild-mannered cafe owner, who gets caught in the crosshairs of a drug cartel.",
-//     image: "/assets/Leo.jpg",
-//   },
-// ]
-
-interface HomeProps { }
-
-export interface IMovie {
-  _id: string;
-  title: string;
-  description: string;
-  duration: number;
-  rating: number;
-  poster: string;
-  url: string;
-  genre: string[];
-  actors: string[];
-  released_date: string;
-  director: string;
-  producer: string[];
-  writer: string[];
-  __v: any;
-}
-
-const Home: React.FC<HomeProps> = () => {
+const Home: React.FC = () => {
 
   const [curIndx, setCurIndx] = useState<number>(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  const cld = new Cloudinary({ cloud: { cloudName: 'dr91ybej4' } });
-
-  const getUrl = (publicId: string)=>{
-    const img = cld
-      .image(publicId)
-      .format('auto')
-      .quality('auto')
-      .resize(auto().gravity(autoGravity()))
-
-    const imgUrl = img.toURL();
-
-    return imgUrl;
-  }
-
-
-  //* Movie Data
-  const [topFiveMovie, setTopFiveMovie] = useState<IMovie[]>([]);
-  const [mostPopular, setMostPopular] = useState<IMovie[]>([]);
-  const [topRomance, setTopRomance] = useState<IMovie[]>([]);
-  // const [moviePoster, setMoviePoster] = useState("");
+  const {topFiveMovie, mostPopular, topRomance} = useHomeMovie();
 
   const resetInerval = () => {
     if (intervalRef.current) {
@@ -127,31 +48,9 @@ const Home: React.FC<HomeProps> = () => {
   }
 
 
-  useEffect(() => {
-    // console.log(topFiveMovie);
-    (async () => {
-      try {
-        const res = await axios.get("http://localhost:8000/api/v1/movie/home-movies-info");
-
-        if (res.status === 200) {
-          const data = await res.data.data;
-          // console.log(data);
-          setTopFiveMovie(data.topFiveMovie);
-          setMostPopular(data.movie);
-          setTopRomance(data.topRommance);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    })()
-
-    // console.log(topFiveMovie);
-  }, []);
-
-
   return (
     <div className="h-auto w-screen relative text-white bg-black z-0">
-      {topFiveMovie?.length > 0 ?
+      {topFiveMovie.length > 0 ?
         <div className="relative h-[90vh] flex z-10">
           <motion.div
             initial={{ opacity: 0 }}
@@ -215,7 +114,7 @@ const Home: React.FC<HomeProps> = () => {
           </AnimatePresence>
         </div>
         :
-        <div className="relative h-[90vh] flex items-center justify-center z-10">
+        <div className="relative h-[90vh] flex items-center justify-center z-10 transition">
           <div className="bg-gray-bg animate-pulse h-[80%] w-[90%]">
 
           </div>
@@ -235,11 +134,9 @@ const Home: React.FC<HomeProps> = () => {
         :
         <div className="h-auto relative w-screen bg-black  pb-8">
           <div className="relative w-full">
-            <div className="h-8 w-[14rem] animate-pulse bg-gray-bg ml-6 lg:ml-12"></div>
             <LoadCards />
           </div>
           <div className="w-full mt-16 relative">
-            <div className="h-8 w-[14rem] animate-pulse bg-gray-bg ml-6 lg:ml-12"></div>
             <LoadCards />
           </div>
         </div>

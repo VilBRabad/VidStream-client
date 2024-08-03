@@ -29,7 +29,7 @@
 }
 
 .movie-card{
-   @apply snap-start bg-gray-bg h-full min-w-[13.1rem] xl:min-w-[17.6rem];
+   @apply snap-start h-full min-w-[13.1rem] xl:min-w-[17.6rem];
 }
 
 .rotate-y-180 {

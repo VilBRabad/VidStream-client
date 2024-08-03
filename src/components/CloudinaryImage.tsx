@@ -3,9 +3,10 @@ import { Cloudinary } from '@cloudinary/url-gen';
 import { auto } from '@cloudinary/url-gen/actions/resize';
 import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
 import { AdvancedImage } from '@cloudinary/react';
-import { IMovie } from './Home';
+import { IMovie } from '../utils';
 import { IoPlaySharp } from 'react-icons/io5';
 import { GrBookmark } from 'react-icons/gr';
+import { useNavigate } from 'react-router-dom';
 
 interface CloudinaryImageProps {
     movie: IMovie;
@@ -14,6 +15,7 @@ interface CloudinaryImageProps {
 const CloudinaryImage: React.FC<CloudinaryImageProps> = ({ movie }) => {
 
     const cld = new Cloudinary({ cloud: { cloudName: 'dr91ybej4' } });
+    const navigate = useNavigate();
 
 
     const getShortDesc = (desc: string) => {
@@ -30,7 +32,7 @@ const CloudinaryImage: React.FC<CloudinaryImageProps> = ({ movie }) => {
         .resize(auto().gravity(autoGravity()));
 
     return (
-        <div className="overflow-hidden relative movie-card poster cursor-pointer">
+        <div onClick={()=>navigate(`/movie/${movie._id}`)} className="overflow-hidden relative movie-card poster cursor-pointer">
             <AdvancedImage className="poster-image absolute inset-0 w-full h-full object-cover transition duration-200 ease-in-out" cldImg={img} />
             <div className="movie-details transition ease-in-out duration-200 flex flex-col justify-end pb-6 opacity-0 absolute h-full w-full bg-gradient-to-b from-gray-bg/0 via-gray-bg/90 to-gray-bg bottom-0 pt-6 px-3">
                 <p className='text-2xl font-semibold'>{movie.title}</p>
@@ -51,7 +53,7 @@ const CloudinaryImage: React.FC<CloudinaryImageProps> = ({ movie }) => {
                     {getShortDesc(movie.description)}....
                 </div>
                 <p className='text-md'>Duration: {movie.duration} Minutes</p>
-                <p className='text-md'>Release Date: {movie.released_date}</p>
+                <p className='text-md'>{movie.released_date}</p>
                 <div className='flex gap-2 mt-2'>
                     <div className="bg-brand-color h-[2.2rem] w-auto px-4 flex items-center justify-center gap-1 cursor-pointer hover:bg-gray-900/50 border border-brand-color transition">
                         <IoPlaySharp size={23} />
