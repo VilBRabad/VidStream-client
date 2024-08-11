@@ -12,6 +12,10 @@ import axios from "axios"
 import toast from "react-hot-toast"
 
 
+const genres=[
+    "Action", "Adventure", "Comedy", "Drama", "Fantasy", "Romance", "Sci-Fi", "Sport", "Thriller"
+]
+
 function Navbar() {
     const navigate = useNavigate();
     const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -88,6 +92,12 @@ function Navbar() {
         handleToggle();
     }
 
+    const filterByGen = (gen: string)=>{
+        navigate(`/movies?genre=${gen}`);
+        setIsVisible(false);
+        setBrowseMenu(false);
+    }
+
 
     return (
         <>
@@ -118,15 +128,11 @@ function Navbar() {
                                         <div>
                                             <p className="font-semibold text-gray-500 pl-4 mb-3">GENRE</p>
                                             <div className="grid grid-rows-3 grid-flow-col gap-2">
-                                                <p className="py-2 px-5 w-[10rem] hover:bg-gray-bg cursor-pointer">Action</p>
-                                                <p className="py-2 px-5 w-[10rem] hover:bg-gray-bg cursor-pointer">Adventure</p>
-                                                <p className="py-2 px-5 w-[10rem] hover:bg-gray-bg cursor-pointer">Comedy</p>
-                                                <p className="py-2 px-5 w-[10rem] hover:bg-gray-bg cursor-pointer">Drama</p>
-                                                <p className="py-2 px-5 w-[10rem] hover:bg-gray-bg cursor-pointer">Fantasy</p>
-                                                <p className="py-2 px-5 w-[10rem] hover:bg-gray-bg cursor-pointer">Rommance</p>
-                                                <p className="py-2 px-5 w-[10rem] hover:bg-gray-bg cursor-pointer">Sci-Fi</p>
-                                                <p className="py-2 px-5 w-[10rem] hover:bg-gray-bg cursor-pointer">Sports</p>
-                                                <p className="py-2 px-5 w-[10rem] hover:bg-gray-bg cursor-pointer">Thriller</p>
+                                                {
+                                                    genres.map((gen, ind)=>(
+                                                        <p key={ind} onClick={()=>filterByGen(gen)} className="py-2 px-5 w-[10rem] hover:bg-gray-bg cursor-pointer">{gen}</p>
+                                                    ))
+                                                }
                                             </div>
                                         </div>
                                     </motion.div>

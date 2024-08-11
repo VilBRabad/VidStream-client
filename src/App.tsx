@@ -9,6 +9,8 @@ import MovieHome from './components/MovieHome';
 import { UserProvider } from './contexts/UserContext';
 import { HomeMovieProvider } from './contexts/HomeMoviesContext';
 import { SkeletonTheme } from 'react-loading-skeleton';
+import MoviesByFIlters from './components/MoviesByFIlters';
+import ErrorPage from './components/ErrorPage';
 
 function App() {
 
@@ -25,7 +27,8 @@ function App() {
               <Route path='/sign-up' element={<Register />} />
               <Route path='/search' element={<SearchPage />} />
               <Route path='/movie/:id' element={<MovieHome />} />
-              <Route path='/:ERROR' element={<MovieHome />} />
+              <Route path='/movies' element={<MoviesByFIlters/>}/>
+              <Route path='/Error' element={<ErrorPage />} />
             </Routes>
             </SkeletonTheme>
           </HomeMovieProvider>
