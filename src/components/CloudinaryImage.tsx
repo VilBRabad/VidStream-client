@@ -19,8 +19,8 @@ const CloudinaryImage: React.FC<CloudinaryImageProps> = ({ movie }) => {
 
 
     const getShortDesc = (desc: string) => {
-        if (desc.length > 100) {
-            return desc.substring(0, 100);
+        if (desc.length > 70) {
+            return desc.substring(0, 70);
         }
         return desc
     }
@@ -32,7 +32,7 @@ const CloudinaryImage: React.FC<CloudinaryImageProps> = ({ movie }) => {
         .resize(auto().gravity(autoGravity()));
 
     return (
-        <div onClick={()=>navigate(`/movie/${movie._id}`)} className="overflow-hidden relative movie-card poster cursor-pointer">
+        <div onClick={()=>navigate(`/movie/${movie._id}`)} className="span-start overflow-hidden relative moviecard h-full poster cursor-pointer">
             <AdvancedImage className="poster-image absolute inset-0 w-full h-full object-cover transition duration-200 ease-in-out" cldImg={img} />
             <div className="movie-details transition ease-in-out duration-200 flex flex-col justify-end pb-6 opacity-0 absolute h-full w-full bg-gradient-to-b from-gray-bg/0 via-gray-bg/90 to-gray-bg bottom-0 pt-6 px-3">
                 <p className='text-2xl font-semibold'>{movie.title}</p>

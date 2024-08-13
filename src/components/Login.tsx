@@ -82,7 +82,7 @@ function Login() {
                     </div>
                     <button type="submit" className="w-full mt-4 h-[3rem] bg-brand-color font-semibold">Sign In</button>
                 </form>
-                <p className="text-gray-400 cursor-pointer hover:text-white transition text-xs">Forgot password?</p>
+                <Link to="/forgot-password" className="text-gray-400 cursor-pointer hover:text-white transition text-xs">Forgot password?</Link>
                 <Link to="/sign-up" className="text-gray-400 cursor-pointer hover:text-white transition mt-4 text-xs">New to Vidstream? sign-up</Link>
             </motion.div>
             </AnimatePresence>

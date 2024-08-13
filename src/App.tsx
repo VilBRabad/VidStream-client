@@ -11,6 +11,8 @@ import { HomeMovieProvider } from './contexts/HomeMoviesContext';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import MoviesByFIlters from './components/MoviesByFIlters';
 import ErrorPage from './components/ErrorPage';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 
 function App() {
 
@@ -25,6 +27,8 @@ function App() {
               <Route path='/' element={<Home />} />
               <Route path='/sign-in' element={<Login />} />
               <Route path='/sign-up' element={<Register />} />
+              <Route path='/forgot-password' element={<ForgotPassword />} />
+              <Route path='/reset-password' element={<ResetPassword />} />
               <Route path='/search' element={<SearchPage />} />
               <Route path='/movie/:id' element={<MovieHome />} />
               <Route path='/movies' element={<MoviesByFIlters/>}/>
