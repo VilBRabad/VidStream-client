@@ -14,3 +14,13 @@ interface IMovie {
     writer: string[];
     __v: any;
 }
+
+interface watchlistState{
+    movies: IMovie[] | null;
+    isLoading: boolean;
+    isError: boolean;
+}
+
+interface IStore{
+    watchlist: watchlistState;
+}

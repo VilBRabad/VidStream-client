@@ -9,6 +9,11 @@ import { getUrl, IMovie } from '../utils';
 import { motion, AnimatePresence } from "framer-motion";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
+import { addToWatchList } from '../utils/Functions';
+import { useAppDispatch } from '../utils/hooks';
+import { useSelector } from 'react-redux';
+import {addToWatchlist} from "../redux/watchlist/watchlistSlice";
+import { GoBookmarkSlash } from 'react-icons/go';
 
 function MovieHome() {
     const navigate = useNavigate();
@@ -19,6 +24,9 @@ function MovieHome() {
     const [calMarin, setCalMargin] = useState<number>(0);
     const [movieData, setMovieData] = useState<IMovie | null>(null);
     const [backgroundUrl, setBackgroundUrl] = useState<string>("");
+
+    const dispatch = useAppDispatch();
+    const movies = useSelector((store: IStore) => store.watchlist.movies)
 
     const getMovieData = useCallback(async () => {
         try {
@@ -174,7 +182,16 @@ function MovieHome() {
                                 <Skeleton count={1} height={40} width={100}/>
                             }
                             {movieData ?
-                                <button className='h-[2.6rem] px-2 border-2 border-brand-color hover:bg-brand-color transition'><GrBookmark size={25} /></button>
+                                (
+                                    movies && movies?.some(mov=>mov._id === id)?
+                                    <button onClick={()=>dispatch(addToWatchlist(id as string))} className='h-[2.6rem] px-2 border-2 border-brand-color hover:bg-brand-color transition'>
+                                        <GoBookmarkSlash size={23}/>
+                                    </button>
+                                    :
+                                    <button onClick={()=>dispatch(addToWatchlist(id as string))} className='h-[2.6rem] px-2 border-2 border-brand-color hover:bg-brand-color transition'>
+                                        <GrBookmark size={25} />
+                                    </button>
+                                )
                                 :
                                 <Skeleton count={1} height={40} width={100}/>
                             }

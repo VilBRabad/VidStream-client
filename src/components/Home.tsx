@@ -7,7 +7,11 @@ import MovieCards from "./MovieCads";
 import LoadCards from "./LoadCards";
 import { getUrl } from "../utils";
 import { useHomeMovie } from "../contexts/HomeMoviesContext";
-
+// import { addToWatchList } from "../utils/Functions";
+import {useAppDispatch} from "../utils/hooks";
+import {addToWatchlist} from "../redux/watchlist/watchlistSlice"
+import { useSelector } from "react-redux";
+import { GoBookmarkSlash } from "react-icons/go";
 
 const Home: React.FC = () => {
 
@@ -15,6 +19,9 @@ const Home: React.FC = () => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const {topFiveMovie, mostPopular, topRomance} = useHomeMovie();
+
+  const dispatch = useAppDispatch();
+  const movies = useSelector((store: IStore)=> store.watchlist.movies);
 
   const resetInerval = () => {
     if (intervalRef.current) {
@@ -78,9 +85,16 @@ const Home: React.FC = () => {
                 <IoPlaySharp size={25} />
                 <p>Play</p>
               </div>
-              <div className="border px-2 flex items-center justify-center cursor-pointer bg-gray-900/50 hover:bg-brand-color transition border-brand-color">
-                <GrBookmark size={25} />
-              </div>
+              {
+                movies && movies.some(mov=>mov._id === topFiveMovie[curIndx]._id)?
+                  <div onClick={()=> dispatch(addToWatchlist(topFiveMovie[curIndx]._id))} className="border px-2 flex items-center justify-center cursor-pointer bg-gray-900/50 hover:bg-brand-color transition border-brand-color">
+                    <GoBookmarkSlash size={25}/>
+                  </div>
+                  :
+                  <div onClick={()=> dispatch(addToWatchlist(topFiveMovie[curIndx]._id))} className="border px-2 flex items-center justify-center cursor-pointer bg-gray-900/50 hover:bg-brand-color transition border-brand-color">
+                    <GrBookmark size={25} />
+                  </div>
+              }
             </div>
             <div className="flex gap-2 mt-[10%] w-[14rem]">
               {

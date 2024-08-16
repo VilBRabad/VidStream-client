@@ -10,7 +10,8 @@ import { Link, useNavigate } from "react-router-dom"
 import { useUser } from "../contexts/UserContext"
 import axios from "axios"
 import toast from "react-hot-toast"
-
+import { useDispatch } from "react-redux"
+import {resetStore} from "../redux/watchlist/watchlistSlice";
 
 const genres=[
     "Action", "Adventure", "Comedy", "Drama", "Fantasy", "Romance", "Sci-Fi", "Sport", "Thriller"
@@ -22,6 +23,7 @@ function Navbar() {
     const [browseMenu, setBrowseMenu] = useState<boolean>(false);
     const [accoutnt, setAccount] = useState<boolean>(false);
     const { user, setUser } = useUser();
+    const dispatch = useDispatch();
 
     
     const handleBrowseClick = () => {
@@ -73,6 +75,7 @@ function Navbar() {
             setUser(null);
             localStorage.removeItem("user");
             toast.success("logout successfully");
+            dispatch(resetStore());
             navigate("/sign-in")
         } catch (error) {
             if(axios.isAxiosError(error)){
@@ -147,9 +150,9 @@ function Navbar() {
                             <RiSearch2Line size={21} />
                         </div>
                     </Link>
-                    <div className="hover:bg-gray-dk h-full px-4 flex items-center">
+                    <Link to="/watchlist" className="hover:bg-gray-dk h-full px-4 flex items-center">
                         <GrBookmark size={20} />
-                    </div>
+                    </Link>
                     <div className="relative h-full">
                         <div onClick={handleAccountClick} className={`hover:bg-gray-dk ${accoutnt ? "bg-gray-dk" : ""} h-full px-4 flex items-center`}>
                             <VscAccount size={21} />
