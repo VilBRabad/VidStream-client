@@ -55,11 +55,11 @@ export const addToWatchlist = createAsyncThunk<IMovie, string, { rejectValue: Re
     }
 )
 
-export const removeFromWatchlist = createAsyncThunk<void, string, { rejectValue: RejectValue }>(
+export const removeFromWatchlist = createAsyncThunk<IMovie, string, { rejectValue: RejectValue }>(
     "watchlist/removeFromWatchlist",
     async(movieId, {rejectWithValue})=>{
         try {
-            const res = await axios.post("http://localhost:8000/api/v1/user/remove-from-watchlist", {movieId}, {withCredentials: true});
+            const res = await axios.post("http://localhost:8000/api/v1/user/remove-from-watchlists", {movieId}, {withCredentials: true});
             const data = res.data.data;
             return data;
         } catch (error) {
@@ -69,7 +69,7 @@ export const removeFromWatchlist = createAsyncThunk<void, string, { rejectValue:
                 if(res){
                     if(res.status === 402 ) errorMessage = "Un-authorized request!";
                     else if(res.status === 400) errorMessage = "Movie not found";
-                    else if(res.status === 401) errorMessage = "Something went wrong! please try to login again";
+                    else errorMessage = "Something went wrong! please try to login again";
                 }
                 else{
                     errorMessage = "Server error";
@@ -118,7 +118,7 @@ const watchlistSlice = createSlice({
             toast.success("Added to watchlist");
         })
 
-        builder.addCase(addToWatchlist.rejected, (state, action)=>{
+        builder.addCase(addToWatchlist.rejected, (_, action)=>{
             if(action.payload?.errorMessage){
                 toast.error(action.payload?.errorMessage);
             }
@@ -126,6 +126,17 @@ const watchlistSlice = createSlice({
                 toast.error("Un-expected error");
             }
             console.log(action.payload);
+        })
+
+        builder.addCase(removeFromWatchlist.fulfilled, (state, action)=>{
+            const newWatchist = state.movies?.filter(mov=> mov._id !== action.payload._id);
+            state.movies = newWatchist?newWatchist:null;
+            toast.success("Movie remove from watchlist successfully!");
+        })
+
+        builder.addCase(removeFromWatchlist.rejected, (_, action)=>{
+            const ermsg = action.payload?.errorMessage;
+            if(ermsg) toast.error(ermsg);
         })
 
     }

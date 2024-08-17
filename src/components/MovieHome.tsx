@@ -9,10 +9,9 @@ import { getUrl, IMovie } from '../utils';
 import { motion, AnimatePresence } from "framer-motion";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
-import { addToWatchList } from '../utils/Functions';
 import { useAppDispatch } from '../utils/hooks';
 import { useSelector } from 'react-redux';
-import {addToWatchlist} from "../redux/watchlist/watchlistSlice";
+import { addToWatchlist, removeFromWatchlist } from "../redux/watchlist/watchlistSlice";
 import { GoBookmarkSlash } from 'react-icons/go';
 
 function MovieHome() {
@@ -21,7 +20,6 @@ function MovieHome() {
     const movieRef = useRef<HTMLDivElement>(null);
     const cardRef = useRef<HTMLDivElement>(null);
     const [isInView, setIsInView] = useState<boolean>(true);
-    const [calMarin, setCalMargin] = useState<number>(0);
     const [movieData, setMovieData] = useState<IMovie | null>(null);
     const [backgroundUrl, setBackgroundUrl] = useState<string>("");
 
@@ -60,11 +58,6 @@ function MovieHome() {
 
 
     useLayoutEffect(() => {
-        if (cardRef.current) {
-            const cal = window.innerHeight - cardRef.current.clientHeight - 62;
-            setCalMargin(cal);
-        }
-
         const observer = new IntersectionObserver(
             ([entry]) => {
                 setIsInView(entry.isIntersecting);
@@ -87,7 +80,6 @@ function MovieHome() {
         };
     }, [movieData]);
 
-    // if (loading) return <div> Loading .....</div>;
 
     return (
         <AnimatePresence>
@@ -184,7 +176,7 @@ function MovieHome() {
                             {movieData ?
                                 (
                                     movies && movies?.some(mov=>mov._id === id)?
-                                    <button onClick={()=>dispatch(addToWatchlist(id as string))} className='h-[2.6rem] px-2 border-2 border-brand-color hover:bg-brand-color transition'>
+                                    <button onClick={()=>dispatch(removeFromWatchlist(id as string))} className='h-[2.6rem] px-2 border-2 border-brand-color hover:bg-brand-color transition'>
                                         <GoBookmarkSlash size={23}/>
                                     </button>
                                     :
@@ -201,15 +193,12 @@ function MovieHome() {
                         className={`relative z-10 -mt-[10%] pt-[12%] pb-10 bg-gray-dk`}>
                         <div ref={movieRef} className='absolute top-0 h-4 w-4'></div>
                         <div className="relative w-full">
-                            {/* <h1 className="pl-6 md:pl-12 text-lg mt-16 font-semibold"><Skeleton count={1} height={30} width={200}/></h1> */}
                             <LoadCards />
                         </div>
                         <div className="relative w-full">
-                            {/* <h1 className="pl-6 md:pl-12 text-lg mt-16 font-semibold"><Skeleton count={1} height={30} width={200}/></h1> */}
                             <LoadCards />
                         </div>
                         <div className="relative w-full">
-                            {/* <h1 className="pl-6 md:pl-12 text-lg mt-16 font-semibold"><Skeleton count={1} height={30} width={200}/></h1> */}
                             <LoadCards />
                         </div>
                     </div>

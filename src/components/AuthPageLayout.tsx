@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react'
+import { ReactNode } from 'react'
 
 interface AuthPageLayoutProps {
   children: ReactNode;

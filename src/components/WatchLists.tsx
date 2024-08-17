@@ -1,25 +1,13 @@
-// import axios from "axios";
-// import { useEffect, useState } from "react"
-// import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton"
 import CloudinaryImage from "./CloudinaryImage";
 import { useUser } from "../contexts/UserContext";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-// import {fetchWatchlist} from "../redux/watchlist/watchlistSlice"
-// import { useAppDispatch } from "../utils/hooks";
 
 const WatchLists = () => {
 
     const { user } = useUser();
-    // const dispatch = useAppDispatch();
     const watchlist = useSelector((store: IStore)=>store.watchlist);
-
-    // useEffect(() => {
-    //     if(user){
-    //         dispatch(fetchWatchlist());
-    //     }
-    // }, []);
 
     return (
         <div className="min-h-screen w-screen px-4 md:px-10 lg:px-24">

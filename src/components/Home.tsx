@@ -7,9 +7,8 @@ import MovieCards from "./MovieCads";
 import LoadCards from "./LoadCards";
 import { getUrl } from "../utils";
 import { useHomeMovie } from "../contexts/HomeMoviesContext";
-// import { addToWatchList } from "../utils/Functions";
 import {useAppDispatch} from "../utils/hooks";
-import {addToWatchlist} from "../redux/watchlist/watchlistSlice"
+import { addToWatchlist, removeFromWatchlist } from "../redux/watchlist/watchlistSlice"
 import { useSelector } from "react-redux";
 import { GoBookmarkSlash } from "react-icons/go";
 
@@ -19,6 +18,7 @@ const Home: React.FC = () => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const {topFiveMovie, mostPopular, topRomance} = useHomeMovie();
+  const [topFiveMoviePoster, setTopFiveMoviePoster] = useState<string[] | null>(null);
 
   const dispatch = useAppDispatch();
   const movies = useSelector((store: IStore)=> store.watchlist.movies);
@@ -28,8 +28,7 @@ const Home: React.FC = () => {
       clearInterval(intervalRef.current);
     }
     intervalRef.current = setInterval(() => {
-      setCurIndx(preIndx => (preIndx + 1) % topFiveMovie.length);
-      // console.log(topFiveMovie[curIndx].title);
+      setCurIndx(preIndx => (preIndx + 1) % 5);
     }, 10000);
   }
 
@@ -47,6 +46,20 @@ const Home: React.FC = () => {
         clearInterval(intervalRef.current);
       }
     };
+  }, []);
+
+  useEffect(()=>{
+    const getCloudiImage = async()=>{
+      const newTopList = [];
+      for(const mov of topFiveMovie){
+        const url = await getUrl(mov.poster);
+        newTopList.push(url);
+      }
+      setTopFiveMoviePoster(newTopList);
+    }
+
+
+    getCloudiImage();
   }, []);
 
   const clickHandle = (ind: number) => {
@@ -87,7 +100,7 @@ const Home: React.FC = () => {
               </div>
               {
                 movies && movies.some(mov=>mov._id === topFiveMovie[curIndx]._id)?
-                  <div onClick={()=> dispatch(addToWatchlist(topFiveMovie[curIndx]._id))} className="border px-2 flex items-center justify-center cursor-pointer bg-gray-900/50 hover:bg-brand-color transition border-brand-color">
+                  <div onClick={()=> dispatch(removeFromWatchlist(topFiveMovie[curIndx]._id))} className="border px-2 flex items-center justify-center cursor-pointer bg-gray-900/50 hover:bg-brand-color transition border-brand-color">
                     <GoBookmarkSlash size={25}/>
                   </div>
                   :
@@ -109,7 +122,7 @@ const Home: React.FC = () => {
             </div>
           </motion.div>
           <AnimatePresence>
-            <motion.div
+            {topFiveMoviePoster && <motion.div
               id="movie" key={curIndx}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -119,12 +132,12 @@ const Home: React.FC = () => {
               style={windowWidth > 768 ? {
                 backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
             linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0,0,0, 0.2), rgba(0, 0, 0, 0)), 
-            url('${getUrl(topFiveMovie[curIndx]?.poster)}')`
+            url('${topFiveMoviePoster[curIndx]}')`
               } : {
                 backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8), rgba(0,0,0, 0.2), rgba(0, 0, 0, 0)), 
-            url('${getUrl(topFiveMovie[curIndx]?.poster)}')`
+            url('${topFiveMoviePoster[curIndx]}')`
               }}
-            />
+            />}
           </AnimatePresence>
         </div>
         :

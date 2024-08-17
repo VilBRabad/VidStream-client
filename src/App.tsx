@@ -27,7 +27,7 @@ function App() {
     if(user){
       dispatch(fetchWatchlist());
     }
-  }, []);
+  }, [user]);
 
 
   return (

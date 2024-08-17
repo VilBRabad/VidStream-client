@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Cloudinary } from '@cloudinary/url-gen';
 import { auto } from '@cloudinary/url-gen/actions/resize';
 import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
@@ -9,7 +9,7 @@ import { GrBookmark } from 'react-icons/gr';
 import { useNavigate } from 'react-router-dom';
 import { GoBookmarkSlash } from "react-icons/go";
 import { useAppDispatch } from '../utils/hooks';
-import {addToWatchlist} from "../redux/watchlist/watchlistSlice";
+import { addToWatchlist, removeFromWatchlist } from "../redux/watchlist/watchlistSlice";
 import { useSelector } from 'react-redux';
 
 interface CloudinaryImageProps {
@@ -18,7 +18,7 @@ interface CloudinaryImageProps {
 
 const CloudinaryImage: React.FC<CloudinaryImageProps> = ({ movie }) => {
 
-    const cld = new Cloudinary({ cloud: { cloudName: 'dr91ybej4' } });
+    const cld = new Cloudinary({ cloud: { cloudName: process.env.CLOUDINARY_CLOUD_NAME } });
     const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
@@ -69,7 +69,7 @@ const CloudinaryImage: React.FC<CloudinaryImageProps> = ({ movie }) => {
                     </div>
                         {
                             movFromStore && movFromStore.some(mov=>mov._id === movie._id)?
-                                <div onClick={()=>dispatch(addToWatchlist(movie._id))} className="border px-1 flex items-center justify-center cursor-pointer bg-gray-900/50 hover:bg-brand-color transition border-brand-color">
+                                <div onClick={()=>dispatch(removeFromWatchlist(movie._id))} className="border px-1 flex items-center justify-center cursor-pointer bg-gray-900/50 hover:bg-brand-color transition border-brand-color">
                                     <GoBookmarkSlash size={23}/>
                                 </div>
                                 :

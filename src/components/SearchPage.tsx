@@ -5,7 +5,6 @@ import axios from "axios";
 
 
 function SearchPage() {
-  // const location = useLocation();
   
   const [resultMovies, setResultMovies] = useState<IMovie[] | null>(null);
   const [searchInput, setSearchInput] = useState<string>("");
